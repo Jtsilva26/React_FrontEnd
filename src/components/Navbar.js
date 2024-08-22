@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "./Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "../auth";
+import { useAuth } from '../AuthContext';
+import app from '../realmApp';
 import './Navbar.css';
 
 function Navbar() {
+    const { user, handleSignOut } = useAuth(); // Use the auth context
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
 
@@ -22,7 +26,11 @@ function Navbar() {
         showButton();
     }, []);
 
-    window.addEventListener('resize', showButton);
+    useEffect(() => {
+        const handleResize = () => showButton();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize); // Cleanup on unmount
+    }, []);
 
     return (
         <>
@@ -32,7 +40,7 @@ function Navbar() {
                         PHOENIX CAPITAL GROUP <i className="navbar-logo" />
                     </Link>
                     <div className='menu-icon' onClick={handleClick}>
-                        <i className={click ? 'fas fa-time' : 'fas fa-bars'} />
+                        <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
                     </div>
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         <li className="nav-item">
@@ -41,12 +49,24 @@ function Navbar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to='/' className="nav-links" onClick={closeMobileMenu}>
+                            <Link to='/services' className="nav-links" onClick={closeMobileMenu}>
                                 Services
                             </Link>
                         </li>
                     </ul>
-                    {button && <Button buttonStyle='btn--outline'>SIGN IN</Button>}
+                    {button && (
+                        user ? (
+                            <Button buttonStyle='btn--outline' onClick={handleSignOut}>
+                                SIGN OUT
+                            </Button>
+                        ) : (
+                            <Link to='/sign-in'>
+                                <Button buttonStyle='btn--outline'>
+                                    SIGN IN
+                                </Button>
+                            </Link>
+                        )
+                    )}
                 </div>
             </nav>
         </>
