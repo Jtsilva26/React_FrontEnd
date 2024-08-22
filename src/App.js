@@ -4,8 +4,9 @@ import app from './realmApp';
 import { Credentials } from 'realm-web';
 import { signOut, signUp } from './auth';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from "./Home";
-import About from "./About";
+import Home from "./components/pages/Home";
+import SignIn from './components/pages/SignIn';
+import SignUp from './components/pages/SignUp';
 import './App.css';
 
 const App = () => {
@@ -50,7 +51,10 @@ const App = () => {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' exact Component={Home} />
+          {/* <Route path='/services' Component={Services} /> */}
+          {/* <Route path='/sign-in' Component={SignIn} /> */}
+          {/* <Route path='/sign-up' Component={SignUp} /> */}
         </Routes>
       </Router>
       <h1>Welcome to Land Holdings App</h1>
