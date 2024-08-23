@@ -10,7 +10,7 @@ function VideoSection() {
             <video src="/videos/mountain.mp4" autoPlay loop muted />
 
             <h1>JOIN OUR TEAM</h1>
-            <p> Become a Owner and profit from unknown potential via Land Holdings</p>
+            <p>"Together, we'll find solutions</p>
             <div className="video-btns">
                 <Button className='btns' buttonStyle='btn--outline' buttonSize='btn--large'>
                     GET STARTED
