@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import app from '../realmApp';
 import './OwnersList.css';
 
-const OwnersList = ({ owners, setOwners, fetchData }) => {
+const OwnersList = ({ owners, fetchData }) => {
     const [selectedOwnerId, setSelectedOwnerId] = useState('');
-    const [statusMessage, setStatusMessage] = useState('');
-    const [error, setError] = useState('');
     const [ownerHoldingsCount, setOwnerHoldingsCount] = useState({});
 
     useEffect(() => {
@@ -13,19 +11,16 @@ const OwnersList = ({ owners, setOwners, fetchData }) => {
             const mongo = app.currentUser.mongoClient("mongodb-atlas");
             const collection = mongo.db("Owners_DB").collection("LandHoldings");
 
-            try {
-                const allHoldings = await collection.find();
-                const counts = {};
+            const allHoldings = await collection.find();
+            const counts = {};
 
-                allHoldings.forEach(holding => {
-                    const ownerId = holding.ownerId;
-                    counts[ownerId] = (counts[ownerId] || 0) + 1;
-                });
+            allHoldings.forEach(holding => {
+                const ownerId = holding.ownerId;
+                counts[ownerId] = (counts[ownerId] || 0) + 1;
+            });
 
-                setOwnerHoldingsCount(counts);
-            } catch (err) {
-                console.error("Error fetching land holdings:", err);
-            }
+            setOwnerHoldingsCount(counts);
+
         };
 
         if (owners.length > 0) {
@@ -51,8 +46,6 @@ const OwnersList = ({ owners, setOwners, fetchData }) => {
 
     return (
         <div>
-            {error && <div className="error-message">{error}</div>}
-            {statusMessage && <div className="success-message">{statusMessage}</div>}
             <h2>Owners List</h2>
             <table className="owners-table">
                 <thead>
