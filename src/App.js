@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
-import app from './realmApp';
+
 import Home from "./components/pages/Home";
 import SignIn from './components/pages/SignIn';
 import Navbar from './components/Navbar';
-import Services from './components/pages/service';
+import Services from './components/pages/Services';
 import './App.css';
 
 const App = () => {

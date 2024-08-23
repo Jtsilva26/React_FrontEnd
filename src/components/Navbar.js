@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "./Button";
-import { Link, useNavigate } from "react-router-dom";
-import { signOut } from "../auth";
+import { Link } from "react-router-dom";
 import { useAuth } from '../AuthContext';
-import app from '../realmApp';
+
 import './Navbar.css';
 
 function Navbar() {
@@ -48,11 +47,19 @@ function Navbar() {
                                 Home
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to='/services' className="nav-links" onClick={closeMobileMenu}>
-                                Services
-                            </Link>
-                        </li>
+                        {user ? (
+                            <li className="nav-item">
+                                <Link to='/services' className="nav-links" onClick={closeMobileMenu}>
+                                    Services
+                                </Link>
+                            </li>
+                        ) : (
+                            <li className="nav-item">
+                                <span className="nav-links disabled" onClick={closeMobileMenu}>
+                                    Services (Sign in to access)
+                                </span>
+                            </li>
+                        )}
                     </ul>
                     {button && (
                         user ? (

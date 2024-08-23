@@ -72,6 +72,11 @@
     height: 100%;
 }
 
+.nav-links.disabled {
+    color: gray;
+    cursor: not-allowed;
+}
+
 .nav-links:hover {
     border-bottom: 4px solid #fff;
     transition: all 0.2s ease-out;
@@ -111,6 +116,7 @@
     .nav-menu.active {
         background: #242222;
         left: 0;
+        height: auto;
         opacity: 1;
         transition: all 0.5s ease;
         z-index: 1;

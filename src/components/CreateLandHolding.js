@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import app from '../realmApp';
+import './CreateLandHolding.css';
 
-const CreateLandHolding = () => {
+const CreateLandHolding = ({ fetchData }) => {
     const [owners, setOwners] = useState([]);
     const [selectedOwnerId, setSelectedOwnerId] = useState('');
     const [legalEntity, setLegalEntity] = useState('');
@@ -72,8 +73,7 @@ const CreateLandHolding = () => {
 
             setStatusMessage("Land Holding created successfully!");
             setError(''); // Clear any previous error messages
-
-            // Reset the form after successful submission
+            fetchData();
             resetForm();
         } catch (error) {
             console.error("Error details:", error); // Log the full error object for debugging
@@ -95,14 +95,14 @@ const CreateLandHolding = () => {
     };
 
     return (
-        <div>
+        <div className="create-land-holding-container">
             <h2>Create Land Holding</h2>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            {statusMessage && <div style={{ color: 'green' }}>{statusMessage}</div>}
+            {error && <div className="error-message">{error}</div>}
+            {statusMessage && <div className="success-message">{statusMessage}</div>}
 
             <div>
-                <label>Owner: </label>
-                <select onChange={(e) => setSelectedOwnerId(e.target.value)} value={selectedOwnerId}>
+                <label className="label">Owner: </label>
+                <select className="select" onChange={(e) => setSelectedOwnerId(e.target.value)} value={selectedOwnerId}>
                     <option value="">Select Owner</option>
                     {owners.map(owner => (
                         <option key={owner._id} value={owner._id}>{owner.ownerName}</option>
@@ -110,32 +110,68 @@ const CreateLandHolding = () => {
                 </select>
             </div>
             <div>
-                <label>Legal Entity: </label>
-                <input type="text" placeholder="Legal Entity" onChange={(e) => setLegalEntity(e.target.value)} value={legalEntity} />
+                <label className="label">Legal Entity: </label>
+                <input
+                    className="input"
+                    type="text"
+                    placeholder="Legal Entity"
+                    onChange={(e) => setLegalEntity(e.target.value)}
+                    value={legalEntity}
+                />
             </div>
             <div>
-                <label>Net Mineral Acres: </label>
-                <input type="number" placeholder="Net Mineral Acres" onChange={(e) => setNetMineralAcres(e.target.value)} value={netMineralAcres} />
+                <label className="label">Net Mineral Acres: </label>
+                <input
+                    className="input"
+                    type="number"
+                    placeholder="Net Mineral Acres"
+                    onChange={(e) => setNetMineralAcres(e.target.value)}
+                    value={netMineralAcres}
+                />
             </div>
             <div>
-                <label>Mineral Owner Royalty (%): </label>
-                <input type="number" placeholder="Mineral Owner Royalty (%)" onChange={(e) => setMineralOwnerRoyalty(e.target.value)} value={mineralOwnerRoyalty} />
+                <label className="label">Mineral Owner Royalty (%): </label>
+                <input
+                    className="input"
+                    type="number"
+                    placeholder="Mineral Owner Royalty (%)"
+                    onChange={(e) => setMineralOwnerRoyalty(e.target.value)}
+                    value={mineralOwnerRoyalty}
+                />
             </div>
             <div>
-                <label>Section: </label>
-                <input type="text" placeholder="Section (3 characters)" onChange={(e) => setSection(e.target.value)} value={section} />
+                <label className="label">Section: </label>
+                <input
+                    className="input"
+                    type="text"
+                    placeholder="Section (3 characters)"
+                    onChange={(e) => setSection(e.target.value)}
+                    value={section}
+                />
             </div>
             <div>
-                <label>Township: </label>
-                <input type="text" placeholder="Township (4 characters)" onChange={(e) => setTownship(e.target.value)} value={township} />
+                <label className="label">Township: </label>
+                <input
+                    className="input"
+                    type="text"
+                    placeholder="Township (4 characters)"
+                    onChange={(e) => setTownship(e.target.value)}
+                    value={township}
+                />
             </div>
             <div>
-                <label>Range: </label>
-                <input type="text" placeholder="Range (4 characters)" onChange={(e) => setRange(e.target.value)} value={range} />
+                <label className="label">Range: </label>
+                <input
+                    className="input"
+                    type="text"
+                    placeholder="Range (4 characters)"
+                    onChange={(e) => setRange(e.target.value)}
+                    value={range}
+                />
             </div>
             <div>
-                <label>Title Source: </label>
-                <select onChange={(e) => setTitleSource(e.target.value)} value={titleSource}>
+                <label className="label">Title Source: </label>
+                <select className="select" onChange={(e) => setTitleSource(e.target.value)} value={titleSource}>
                     <option value="">Select Title Source</option>
                     <option value="Class A">Class A</option>
                     <option value="Class B">Class B</option>
@@ -143,8 +179,9 @@ const CreateLandHolding = () => {
                     <option value="Class D">Class D</option>
                 </select>
             </div>
-            <button onClick={handleSubmit}>Create</button>
+            <button className="button" onClick={handleSubmit}>Create</button>
         </div>
+
     );
 };
 

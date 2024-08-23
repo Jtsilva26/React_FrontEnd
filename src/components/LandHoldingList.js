@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import app from '../realmApp';
 
-const LandHoldingList = ({ user }) => {
-    const [landHoldings, setLandHoldings] = useState([]);
+const LandHoldingList = ({ user, landHoldings, setLandHoldings, fetchData }) => {
 
     useEffect(() => {
         const fetchLandHoldings = async () => {
@@ -20,6 +19,7 @@ const LandHoldingList = ({ user }) => {
         const collection = mongo.db("Owners_DB").collection("LandHoldings");
         await collection.deleteOne({ _id: id });
         setLandHoldings(landHoldings.filter(item => item._id !== id));
+        fetchData();
     };
 
     return (

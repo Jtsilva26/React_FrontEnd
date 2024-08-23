@@ -1,26 +1,26 @@
 // src/components/pages/SignIn.js
 import React, { useState } from 'react';
-import { useAuth } from '../../AuthContext'; // Import the authentication context
-import './SignIn.css'; // Ensure you have styles if needed
+import { Button } from '../Button';
+import { useAuth } from '../../AuthContext';
+import './SignIn.css';
 
 const SignIn = () => {
-    const { handleSignIn, signUp } = useAuth(); // Use the authentication context
+    const { user, handleSignIn, signUp, handleSignOut } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [message, setMessage] = useState(""); // State for success/error messages
-    const [isSignUp, setIsSignUp] = useState(false); // State to toggle between sign in and sign up
+    const [message, setMessage] = useState("");
+    const [isSignUp, setIsSignUp] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); // Clear previous error messages
+        setError("");
 
         if (isSignUp) {
-            // Handle sign up
             try {
                 await signUp(email, password);
                 setMessage("Sign-up successful! You can now sign in.");
-                setEmail(""); // Clear the input
+                setEmail("");
                 setPassword("");
             } catch (err) {
                 setError("Failed to sign up. Please try again.");
@@ -30,7 +30,7 @@ const SignIn = () => {
             try {
                 await handleSignIn(email, password);
                 setMessage("Logged in successfully!");
-                setEmail(""); // Clear the input
+                setEmail("");
                 setPassword("");
             } catch (err) {
                 setError("Failed to log in. Please check your email and password.");
@@ -38,11 +38,29 @@ const SignIn = () => {
         }
     };
 
+    const handleSignOutClick = async () => {
+        await handleSignOut();
+        setMessage("Logged out successfully!");
+    };
+
+
+    if (user) {
+        return (
+            <div>
+                <h2>Welcome!</h2>
+                {message && <p style={{ color: 'green' }}>{message}</p>}
+                <h2>
+                    <Button buttonStyle='btn--primary' buttonSize='btn--medium' onClick={handleSignOutClick}>Sign Out</Button>
+                </h2>
+            </div>
+        );
+    }
+
     return (
-        <div>
+        <div className="sign-in-container">
             <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
-            {message && <p style={{ color: 'green' }}>{message}</p>} {/* Display success message */}
-            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
+            {message && <p className="success-message">{message}</p>}
+            {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"

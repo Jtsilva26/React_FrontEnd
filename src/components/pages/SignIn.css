@@ -1,0 +1,62 @@
+/* SignIn.css */
+.sign-in-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input:focus {
+    border-color: #007BFF;
+    /* Change the border color on focus */
+    outline: none;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    text-align: center;
+    margin-top: 15px;
+}
+
+p:hover {
+    text-decoration: underline;
+    /* Underline on hover for the toggle message */
+    cursor: pointer;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+}
