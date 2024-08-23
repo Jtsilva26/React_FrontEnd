@@ -1,0 +1,41 @@
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.table-header {
+    background-color: #f2f2f2;
+}
+
+.table-header th {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-row {
+    border: 1px solid #ddd;
+}
+
+.table-row td {
+    padding: 10px;
+}
+
+.table-row:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Alternate row color */
+}
+
+.button-delete {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-delete:hover {
+    background-color: #c0392b;
+}
