@@ -61,7 +61,6 @@ const OwnersList = ({ owners, setOwners, fetchData }) => {
                         <th>Entity Type</th>
                         <th>Owner Type</th>
                         <th>Total Land Holdings</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,9 +70,6 @@ const OwnersList = ({ owners, setOwners, fetchData }) => {
                             <td>{owner.entityType || "N/A"}</td>
                             <td>{owner.ownerType || "N/A"}</td>
                             <td>{ownerHoldingsCount[owner._id] || 0}</td>
-                            <td>
-                                <button onClick={() => setSelectedOwnerId(owner._id)}>Delete</button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>

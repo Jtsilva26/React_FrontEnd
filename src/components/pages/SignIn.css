@@ -1,4 +1,3 @@
-/* SignIn.css */
 .sign-in-container {
     max-width: 400px;
     margin: auto;
@@ -6,9 +5,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 h2 {
@@ -32,8 +28,18 @@ input {
 
 input:focus {
     border-color: #007BFF;
-    /* Change the border color on focus */
     outline: none;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -47,7 +53,6 @@ p {
 
 p:hover {
     text-decoration: underline;
-    /* Underline on hover for the toggle message */
     cursor: pointer;
 }
 

@@ -1,4 +1,3 @@
-// src/components/pages/SignIn.js
 import React, { useState } from 'react';
 import { Button } from '../Button';
 import { useAuth } from '../../AuthContext';
@@ -15,15 +14,17 @@ const SignIn = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        setMessage("");
 
         if (isSignUp) {
             try {
                 await signUp(email, password);
-                setMessage("Sign-up successful! You can now sign in.");
+                await handleSignIn(email, password); // Automatically sign in the user after sign-up
+                setMessage("Sign-up and login successful!");
                 setEmail("");
                 setPassword("");
             } catch (err) {
-                setError("Failed to sign up. Please try again.");
+                setError("Failed to sign up or log in. Please try again.");
             }
         } else {
             // Handle sign in
@@ -42,7 +43,6 @@ const SignIn = () => {
         await handleSignOut();
         setMessage("Logged out successfully!");
     };
-
 
     if (user) {
         return (

@@ -7,11 +7,17 @@ const CreateOwner = ({ fetchData }) => {
     const [entityType, setEntityType] = useState('');
     const [ownerType, setOwnerType] = useState('');
     const [address, setAddress] = useState('');
-    const [totalLandHoldings, setTotalLandHoldings] = useState(0);
     const [statusMessage, setStatusMessage] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async () => {
+        // Validate required fields
+        if (!ownerName || !entityType || !ownerType || !address) {
+            setError("Please fill out all required fields.");
+            setStatusMessage('');
+            return; // Stop execution if validation fails
+        }
+
         try {
             const result = await app.currentUser.callFunction("Duplicate", {
                 ownerName,
@@ -42,7 +48,6 @@ const CreateOwner = ({ fetchData }) => {
         setEntityType('');
         setOwnerType('');
         setAddress('');
-        setTotalLandHoldings(0);
     };
 
     return (
@@ -56,12 +61,13 @@ const CreateOwner = ({ fetchData }) => {
                     className="input"
                     type="text"
                     placeholder="Owner Name"
+                    value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
                 />
             </div>
             <div>
                 <label className="label">Entity Type: </label>
-                <select className="select" onChange={(e) => setEntityType(e.target.value)}>
+                <select className="select" value={entityType} onChange={(e) => setEntityType(e.target.value)}>
                     <option value="">Select Entity Type</option>
                     <option value="Company">Company</option>
                     <option value="Individual">Individual</option>
@@ -71,7 +77,7 @@ const CreateOwner = ({ fetchData }) => {
             </div>
             <div>
                 <label className="label">Owner Type: </label>
-                <select className="select" onChange={(e) => setOwnerType(e.target.value)}>
+                <select className="select" value={ownerType} onChange={(e) => setOwnerType(e.target.value)}>
                     <option value="">Select Owner Type</option>
                     <option value="Competitor">Competitor</option>
                     <option value="Seller">Seller</option>
@@ -85,6 +91,7 @@ const CreateOwner = ({ fetchData }) => {
                     className="input"
                     type="text"
                     placeholder="Address"
+                    value={address}
                     onChange={(e) => setAddress(e.target.value)}
                 />
             </div>
