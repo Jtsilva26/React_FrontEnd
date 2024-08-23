@@ -5,6 +5,7 @@ import app from './realmApp';
 import Home from "./components/pages/Home";
 import SignIn from './components/pages/SignIn';
 import Navbar from './components/Navbar';
+import Services from './components/pages/service';
 import './App.css';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/services' element={<Services />} />
         </Routes>
       </Router>
     </AuthProvider>
