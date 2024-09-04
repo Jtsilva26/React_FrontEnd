@@ -24,7 +24,7 @@ const SignIn = () => {
                 setEmail("");
                 setPassword("");
             } catch (err) {
-                setError("Failed to sign up or log in. Please try again.");
+                setError("Failed to sign up, please use a password six characters long.");
             }
         } else {
             // Handle sign in
