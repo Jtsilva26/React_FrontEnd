@@ -3,29 +3,33 @@ import app from '../realmApp';
 import './LandHoldingsList.css'
 
 const LandHoldingList = ({ user, landHoldings, setLandHoldings, fetchData }) => {
-    const [owners, setOwners] = useState({}); // Object to map owner IDs to names
+    const [owners, setOwners] = useState({}); //Initialize an empty object to map owner IDS to names
 
+    //useEffect hook to fetch owners from the database when the component mounts or user changes
     useEffect(() => {
         const fetchOwners = async () => {
-            const mongo = app.currentUser.mongoClient("mongodb-atlas");
-            const collection = mongo.db("Owners_DB").collection("Owners");
-            const ownersData = await collection.find({});
-            const ownersMap = {};
+            const mongo = app.currentUser.mongoClient("mongodb-atlas"); //Get MongoDB Client
+            const collection = mongo.db("Owners_DB").collection("Owners"); //Refer to Owners collection
+            const ownersData = await collection.find({}); //Fetches all owners data from the collection
+            const ownersMap = {}; //Initialize an object to hold the mapping of owner IDS to names
+
+            //Creates a mapping of owner IDS to owner names
             ownersData.forEach(owner => {
-                ownersMap[owner._id] = owner.ownerName;
+                ownersMap[owner._id] = owner.ownerName; //Map each owner ID to corresponding name
             });
-            setOwners(ownersMap);
+            setOwners(ownersMap); //Updates the owners state with the created mapping
         };
 
-        fetchOwners();
-    }, [user]);
+        fetchOwners(); //call fetchOwners function
+    }, [user]); //Dependency array to re-run the effect when the user changes
 
+    //Function to handle the deletion of a land holding
     const handleDelete = async (id) => {
-        const mongo = app.currentUser.mongoClient("mongodb-atlas");
-        const collection = mongo.db("Owners_DB").collection("LandHoldings");
-        await collection.deleteOne({ _id: id });
-        setLandHoldings(landHoldings.filter(item => item._id !== id));
-        fetchData();
+        const mongo = app.currentUser.mongoClient("mongodb-atlas"); //Get MongoDB Client
+        const collection = mongo.db("Owners_DB").collection("LandHoldings"); //Refer to LandHoldings collection
+        await collection.deleteOne({ _id: id }); //Delete land holding from database
+        setLandHoldings(landHoldings.filter(item => item._id !== id)); //Update the local state by filtering the deleted holding
+        fetchData(); //Call fetchData to update the displayed list
     };
 
     return (
@@ -45,8 +49,9 @@ const LandHoldingList = ({ user, landHoldings, setLandHoldings, fetchData }) => 
                     </tr>
                 </thead>
                 <tbody>
+                    {/* Map through landHoldings to create table rows fro each land holding */}
                     {landHoldings.map(holding => (
-                        <tr key={holding._id}>
+                        <tr key={holding._id}> {/* Unique key for each row */}
                             <td>{owners[holding.ownerId]}</td>
                             <td>{holding.legalEntity}</td>
                             <td>{holding.netMineralAcres}</td>

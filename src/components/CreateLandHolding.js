@@ -3,37 +3,41 @@ import app from '../realmApp';
 import './CreateLandHolding.css';
 
 const CreateLandHolding = ({ fetchData }) => {
-    const [owners, setOwners] = useState([]);
-    const [selectedOwnerId, setSelectedOwnerId] = useState('');
-    const [legalEntity, setLegalEntity] = useState('');
-    const [netMineralAcres, setNetMineralAcres] = useState(0);
-    const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(0);
-    const [section, setSection] = useState('');
-    const [township, setTownship] = useState('');
-    const [range, setRange] = useState('');
-    const [titleSource, setTitleSource] = useState('');
-    const [sectionName, setSectionName] = useState('');
-    const [name, setName] = useState('');
-    const [error, setError] = useState('');
-    const [statusMessage, setStatusMessage] = useState('');
+    //State variables for managing form data and error/success messages
+    const [owners, setOwners] = useState([]); //List of owners fetched from the database
+    const [selectedOwnerId, setSelectedOwnerId] = useState(''); //Selected owner's ID
+    const [legalEntity, setLegalEntity] = useState(''); //Legal entity name
+    const [netMineralAcres, setNetMineralAcres] = useState(0); //Net mineral acres
+    const [mineralOwnerRoyalty, setMineralOwnerRoyalty] = useState(0); //Royalty percentage
+    const [section, setSection] = useState(''); //Section number
+    const [township, setTownship] = useState(''); //Township designation
+    const [range, setRange] = useState(''); //Range description
+    const [titleSource, setTitleSource] = useState(''); //Source of title information
+    const [sectionName, setSectionName] = useState(''); //Section Name
+    const [name, setName] = useState(''); // Name associated with the land holding
+    const [error, setError] = useState(''); //Error message state
+    const [statusMessage, setStatusMessage] = useState(''); //Success message state
 
+    //Fetch owners when component mounts
     useEffect(() => {
         const fetchOwners = async () => {
             try {
+                //Call function to fetch owners
                 const ownersData = await app.currentUser.callFunction("getOwners");
-                setOwners(ownersData);
+                setOwners(ownersData); //Update owners dtate with fetched data
 
             } catch (err) {
                 setError("Error fetching owners.");
-                setOwners([]);
+                setOwners([]); //Clears owners list on error
             }
         };
 
-        fetchOwners();
-    }, []);
+        fetchOwners(); //call fetchOwners function
+    }, []); //Empty dependency array to run only once
 
+    //Handle form submission for creating a land holding
     const handleSubmit = async () => {
-
+        //Validates required fields
         if (!owners || !legalEntity || !netMineralAcres || !mineralOwnerRoyalty || !section || !township || !range || !titleSource) {
             setError("Please fill in all required fields.");
             return;
@@ -54,17 +58,19 @@ const CreateLandHolding = ({ fetchData }) => {
             return;
         }
 
+        //Attempt to create a new land holding in the database
         try {
-            const mongo = app.currentUser.mongoClient("mongodb-atlas");
-            const collection = mongo.db("Owners_DB").collection("LandHoldings");
+            const mongo = app.currentUser.mongoClient("mongodb-atlas"); //Get MongoDB Client
+            const collection = mongo.db("Owners_DB").collection("LandHoldings"); //Refer to Landholdings collection
 
+            //Insert the new land holding document
             await collection.insertOne({
                 ownerId: selectedOwnerId, // Use selectedOwnerId for the owner
                 legalEntity,
                 netMineralAcres,
                 mineralOwnerRoyalty,
                 sectionName: `${section}-${township}-${range}`, // Combine into Section-Township-Range format
-                name: `${sectionName}-${legalEntity}`,
+                name: `${sectionName}-${legalEntity}`, // Combine section-legalEntity
                 section,
                 township,
                 range,
@@ -73,8 +79,8 @@ const CreateLandHolding = ({ fetchData }) => {
 
             setStatusMessage("Land Holding created successfully!");
             setError(''); // Clear any previous error messages
-            fetchData();
-            resetForm();
+            fetchData(); //Fetch updated data
+            resetForm(); //Reset form fields after submission
         } catch (error) {
             console.error("Error details:", error); // Log the full error object for debugging
             setError("Error creating Land Holding. Please try again.");
@@ -82,6 +88,7 @@ const CreateLandHolding = ({ fetchData }) => {
         }
     };
 
+    //Reset form fiels to intial state
     const resetForm = () => {
         setName('');
         setSelectedOwnerId('');
@@ -100,6 +107,7 @@ const CreateLandHolding = ({ fetchData }) => {
             {error && <div className="error-message">{error}</div>}
             {statusMessage && <div className="success-message">{statusMessage}</div>}
 
+            {/* Owner Selection */}
             <div>
                 <label className="label">Owner: </label>
                 <select className="select" onChange={(e) => setSelectedOwnerId(e.target.value)} value={selectedOwnerId}>
@@ -109,6 +117,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     ))}
                 </select>
             </div>
+
+            {/* Legal Entity Input */}
             <div>
                 <label className="label">Legal Entity: </label>
                 <input
@@ -119,6 +129,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     value={legalEntity}
                 />
             </div>
+
+            {/* Net Mineral Acres Input */}
             <div>
                 <label className="label">Net Mineral Acres: </label>
                 <input
@@ -129,6 +141,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     value={netMineralAcres}
                 />
             </div>
+
+            {/* Mineral Owner Royalty Input */}
             <div>
                 <label className="label">Mineral Owner Royalty (%): </label>
                 <input
@@ -139,6 +153,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     value={mineralOwnerRoyalty}
                 />
             </div>
+
+            {/* Section Input */}
             <div>
                 <label className="label">Section: </label>
                 <input
@@ -149,6 +165,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     value={section}
                 />
             </div>
+
+            {/* Township Input */}
             <div>
                 <label className="label">Township: </label>
                 <input
@@ -159,6 +177,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     value={township}
                 />
             </div>
+
+            {/* Range Input */}
             <div>
                 <label className="label">Range: </label>
                 <input
@@ -169,6 +189,8 @@ const CreateLandHolding = ({ fetchData }) => {
                     value={range}
                 />
             </div>
+
+            {/* Title Source selection */}
             <div>
                 <label className="label">Title Source: </label>
                 <select className="select" onChange={(e) => setTitleSource(e.target.value)} value={titleSource}>
@@ -179,6 +201,7 @@ const CreateLandHolding = ({ fetchData }) => {
                     <option value="Class D">Class D</option>
                 </select>
             </div>
+            {/* Create Button */}
             <button className="button" onClick={handleSubmit}>Create</button>
         </div>
 
