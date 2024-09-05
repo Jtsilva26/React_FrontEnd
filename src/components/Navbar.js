@@ -6,18 +6,21 @@ import { useAuth } from '../AuthContext';
 import './Navbar.css';
 
 function Navbar() {
-    const { user, handleSignOut } = useAuth(); // Use the auth context
-    const [click, setClick] = useState(false);
-    const [button, setButton] = useState(true);
+    const { user, handleSignOut } = useAuth(); //User Info and Sign out function from Auth context
+    const [click, setClick] = useState(false); //State to manage mobile menu click
+    const [button, setButton] = useState(true); //State to determine whether to show the button
 
+    //Toggle mobile menu visibility
     const handleClick = () => setClick(!click);
+    //Close mobile menu when a link is clicked
     const closeMobileMenu = () => setClick(false);
 
+    //Show or hide the bnutton based on the window width
     const showButton = () => {
         if (window.innerWidth <= 960) {
-            setButton(false);
+            setButton(false); //Hide button on mobile
         } else {
-            setButton(true);
+            setButton(true); //Show button on larger screen
         }
     };
 
@@ -25,9 +28,10 @@ function Navbar() {
         showButton();
     }, []);
 
+    //Add event listener to handle window resizing
     useEffect(() => {
-        const handleResize = () => showButton();
-        window.addEventListener('resize', handleResize);
+        const handleResize = () => showButton(); //Check window size on resize
+        window.addEventListener('resize', handleResize); //Add resize event listener
         return () => window.removeEventListener('resize', handleResize); // Cleanup on unmount
     }, []);
 

@@ -19,6 +19,7 @@ const CreateOwner = ({ fetchData }) => {
         }
 
         try {
+            //Call "Duplicate" function on MongoDb Realm Server
             const result = await app.currentUser.callFunction("Duplicate", {
                 ownerName,
                 entityType,
@@ -33,9 +34,9 @@ const CreateOwner = ({ fetchData }) => {
                 setStatusMessage('');
             } else {
                 setStatusMessage(result.message);
-                setError('');
-                resetForm();
-                fetchData();
+                setError(''); //Clear error message
+                resetForm(); //Reset form fiels
+                fetchData(); //Refresh data after success
             }
         } catch (err) {
             setError("An error occurred while creating the owner. Please try again.");
@@ -43,6 +44,7 @@ const CreateOwner = ({ fetchData }) => {
         }
     };
 
+    //Reset form fields
     const resetForm = () => {
         setOwnerName('');
         setEntityType('');
