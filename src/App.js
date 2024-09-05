@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; //Importing React Router components for navigation
+import { AuthProvider } from './AuthContext'; //
 import Home from "./components/pages/Home";
 import SignIn from './components/pages/SignIn';
 import Navbar from './components/Navbar';
@@ -13,9 +13,9 @@ const App = () => {
 
   return (
     <AuthProvider> {/* Ensure this wraps your Router */}
-      <Router>
-        <Navbar />
-        <Routes>
+      <Router> {/* Main router component for client-side routing */}
+        <Navbar /> {/* Display Navbar */}
+        <Routes> {/* Container for all routes */}
           <Route path='/' element={<Home />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/services' element={<Services />} />
@@ -27,5 +27,5 @@ const App = () => {
   );
 };
 
-export default App;
+export default App; //Exporting the App components for use in index.js
 
